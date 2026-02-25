@@ -54,14 +54,35 @@ function closeSidebar() {
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   background: var(--bg-page);
 }
 
 .layout-body {
   display: flex;
   flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f8f9fc;
+}
+
+.layout-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.layout-body::-webkit-scrollbar-track {
+  background: #f8f9fc;
+}
+
+.layout-body::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.layout-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 .sidebar-overlay {

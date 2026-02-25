@@ -21,21 +21,20 @@ const baseCustomClasses = {
  * @param {Function} onConfirm - Callback when user confirms (complete)
  * @param {Function} onDeny - Callback when user denies (delete)
  */
-export function showTodoActionModal(todo, onConfirm, onDeny) {
-  return Swal.fire({
+export async function showTodoActionModal(todo, onConfirm, onDeny) {
+  const result = await Swal.fire({
     title: todo.name,
     showDenyButton: true,
     confirmButtonText: '✓ Complete',
     denyButtonText: '✕ Delete',
     customClass: baseCustomClasses,
     buttonsStyling: false,
-  }).then(result => {
-    if (result.isConfirmed && !todo.checked) {
-      onConfirm(todo)
-    } else if (result.isDenied) {
-      onDeny(todo)
-    }
   })
+  if (result.isConfirmed && !todo.checked) {
+    onConfirm(todo)
+  } else if (result.isDenied) {
+    onDeny(todo)
+  }
 }
 
 /**
