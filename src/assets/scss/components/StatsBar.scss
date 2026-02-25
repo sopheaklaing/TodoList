@@ -1,0 +1,141 @@
+@use "@/assets/scss/_variables" as vars;
+
+.stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: vars.$color-white;
+  border: 1px solid vars.$color-border;
+  border-radius: vars.$border-radius;
+  padding: 14px 22px;
+  box-shadow: vars.$box-shadow-light;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.stat-num {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: vars.$color-gray-dark;
+  font-family: 'DM Mono', monospace;
+}
+
+.done-num {
+  color: vars.$color-success;
+}
+
+.pending-num {
+  color: #f59e0b; // optional: add $color-warning in variables if needed
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: vars.$color-gray-light;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 30px;
+  background: vars.$color-border;
+}
+
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  min-width: 160px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: vars.$color-bg-alt;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: vars.$gradient-primary;
+  border-radius: 99px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-pct {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #718096; // optional: define $color-gray-mid in variables
+  font-family: 'DM Mono', monospace;
+  min-width: 34px;
+  text-align: right;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .stats-bar {
+    padding: 12px 18px;
+    gap: 16px;
+  }
+
+  .stat-num {
+    font-size: 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+  }
+
+  .progress-wrap {
+    min-width: 140px;
+  }
+
+  .progress-pct {
+    font-size: 0.7rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .stats-bar {
+    padding: 10px 12px;
+    gap: 12px;
+  }
+
+  .stat {
+    gap: 0;
+  }
+
+  .stat-num {
+    font-size: 0.9rem;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+  }
+
+  .stat-divider {
+    height: 24px;
+  }
+
+  .progress-wrap {
+    margin-left: 12px;
+    min-width: 100px;
+  }
+
+  .progress-bar {
+    height: 4px;
+  }
+
+  .progress-pct {
+    font-size: 0.65rem;
+    min-width: 28px;
+  }
+}

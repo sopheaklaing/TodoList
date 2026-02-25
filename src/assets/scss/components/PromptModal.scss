@@ -1,0 +1,255 @@
+@use "@/assets/scss/_variables" as vars;
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 1000;
+
+  &.centered {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.modal {
+  background: vars.$color-white;
+  border-radius: 16px;
+  min-width: 360px;
+  max-width: 420px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+              0 0 0 1px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+
+  &.anchored {
+    margin: 0;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 20px 0;
+
+  .modal-icon-wrap {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 10px;
+    color: #3b82f6;
+    flex-shrink: 0;
+  }
+
+  .modal-title {
+    flex: 1;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: vars.$transition-fast;
+
+    &:hover {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+  }
+}
+
+.modal-body {
+  padding: 20px 20px 0;
+
+  .modal-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: vars.$border-radius;
+    font-size: 0.95rem;
+    color: #0f172a;
+    background: vars.$bg-sidebar;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+      background: vars.$color-white;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 20px;
+  background: vars.$bg-sidebar;
+  border-top: 1px solid #f1f5f9;
+
+  .btn-cancel,
+  .btn-confirm {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: vars.$border-radius;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: vars.$transition-fast;
+  }
+
+  .btn-cancel {
+    background: vars.$color-white;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+
+    &:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      color: #475569;
+    }
+  }
+
+  .btn-confirm {
+    background: #3b82f6;
+    border: 1px solid #3b82f6;
+    color: vars.$color-white;
+
+    &:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.35);
+    }
+  }
+}
+
+/* Transition */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.modal-enter-active .modal,
+.modal-leave-active .modal {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from .modal,
+.modal-leave-to .modal {
+  transform: scale(0.96) translateY(-4px);
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .modal {
+    min-width: 320px;
+    max-width: 380px;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+  }
+
+  .modal-input {
+    font-size: 0.9rem;
+    padding: 11px 14px;
+  }
+
+  .btn-cancel,
+  .btn-confirm {
+    padding: 9px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .modal-overlay.centered {
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 0;
+  }
+
+  .modal {
+    min-width: calc(100% - 32px);
+    max-width: 100%;
+    margin: 0 16px 16px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .modal-header {
+    padding: 16px 16px 0;
+    gap: 12px;
+
+    .modal-icon-wrap {
+      width: 36px;
+      height: 36px;
+    }
+
+    .modal-title {
+      font-size: 0.95rem;
+    }
+
+    .modal-close {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .modal-body {
+    padding: 16px 16px 0;
+
+    .modal-input {
+      font-size: 0.9rem;
+      padding: 10px 14px;
+    }
+  }
+
+  .modal-actions {
+    padding: 16px 16px;
+    gap: 8px;
+
+    .btn-cancel,
+    .btn-confirm {
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      flex: 1;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}

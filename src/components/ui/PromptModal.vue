@@ -39,7 +39,7 @@
 <script setup>
 import { ref, watch, nextTick } from 'vue'
 import { Plus, X, Check } from 'lucide-vue-next'
-
+import '@/assets/scss/components/PromptModal.scss'
 const props = defineProps({
   show: { type: Boolean, default: false },
   title: { type: String, default: '' },
@@ -112,7 +112,7 @@ function close() {
 </script>
 
 
-<style scoped>
+<!-- <style scoped>
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -280,4 +280,94 @@ function close() {
 .modal-leave-to .modal {
   transform: scale(0.96) translateY(-4px);
 }
-</style>
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .modal {
+    min-width: 320px;
+    max-width: 380px;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+  }
+
+  .modal-input {
+    font-size: 0.9rem;
+    padding: 11px 14px;
+  }
+
+  .btn-cancel,
+  .btn-confirm {
+    padding: 9px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 768px) {
+  .modal-overlay.centered {
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 0;
+  }
+
+  .modal {
+    min-width: calc(100% - 32px);
+    max-width: 100%;
+    margin: 0 16px 16px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .modal-overlay.centered .modal {
+    border-radius: 16px;
+    margin: 16px;
+  }
+
+  .modal-header {
+    padding: 16px 16px 0;
+    gap: 12px;
+  }
+
+  .modal-icon-wrap {
+    width: 36px;
+    height: 36px;
+  }
+
+  .modal-title {
+    font-size: 0.95rem;
+  }
+
+  .modal-close {
+    width: 28px;
+    height: 28px;
+  }
+
+  .modal-body {
+    padding: 16px 16px 0;
+  }
+
+  .modal-input {
+    font-size: 0.9rem;
+    padding: 10px 14px;
+  }
+
+  .modal-actions {
+    padding: 16px 16px;
+    gap: 8px;
+  }
+
+  .btn-cancel,
+  .btn-confirm {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    flex: 1;
+  }
+
+  .btn-cancel,
+  .btn-confirm svg {
+    height: 14px;
+    width: 14px;
+  }
+}
+</style> -->

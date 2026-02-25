@@ -44,6 +44,16 @@ export function usePlans() {
     plans.value = updated
   }
 
+  function deleteTodo(planId, todoIds) {
+    const { plans: updated } = repo.deleteTodos(plans.value, planId, todoIds)
+    plans.value = updated
+  }
+
+  function setTodosChecked(planId, todoIds, checked = true) {
+    const { plans: updated } = repo.setTodosChecked(plans.value, planId, todoIds, checked)
+    plans.value = updated
+  }
+
   return {
     plans,
     selectedPlanId,
@@ -52,5 +62,7 @@ export function usePlans() {
     selectPlan,
     addTodo,
     toggleTodo,
+    deleteTodo,
+    setTodosChecked,
   }
 }

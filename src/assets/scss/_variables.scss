@@ -1,0 +1,52 @@
+$primary: #6366f1;
+$use: 'sass:color';
+@use "sass:color" as color;
+$secondary: #8b5cf6;
+$bg-sidebar: #f8fafc;
+$border-color: #e2e8f0;
+
+// _variables.scss
+$color-primary: #4338ca;
+$color-success: #10b981;
+$color-success-hover: #059669;
+$color-danger: #dc2626;
+$color-danger-bg: #fee2e2;
+$color-danger-bg-hover: #fecaca;
+$color-gray: #4a5568;
+$color-border: #c7d2fe;
+$color-bg: #eef2ff;
+$color-bg-alt: #f0fdf4;       // added
+$color-border-alt: #a7f3d0;   // added
+$color-white: #fff;
+
+// Light/dark gray variants
+$color-gray-dark: $color-gray;
+$color-gray-light: color.adjust($color-gray, $lightness: 24%);
+
+// Secondary color alias for components expecting $color-secondary
+$color-secondary: $secondary;
+
+// Fonts
+$font-family: 'DM Sans', sans-serif;
+$font-size-sm: 0.7rem;
+$font-size-md: 0.82rem;
+$font-size-lg: 0.875rem;
+
+// Border radius
+$border-radius: 8px;
+$bulk-bar-radius: 12px;
+$empty-icon-radius: 20px;     // added
+$empty-add-btn-radius: 10px;  // added
+
+// Transitions
+$transition-fast: all 0.15s ease;
+$transition-medium: all 0.22s ease;
+
+// Shadows
+$box-shadow-light: 0 2px 8px rgba(99, 102, 241, 0.3);  // added
+$box-shadow-hover: 0 6px 16px rgba(99, 102, 241, 0.4);  // added
+
+// Gradients
+$gradient-primary: linear-gradient(135deg, $primary, $secondary); // added
+$gradient-alt: linear-gradient(135deg, $color-bg, #f5f3ff);       // added
+$gradient-success: linear-gradient(135deg, #d1fae5, $color-success); // added

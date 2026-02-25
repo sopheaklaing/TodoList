@@ -1,0 +1,115 @@
+@use "@/assets/scss/_variables" as vars;
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: vars.$color-border vars.$bg-sidebar;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: vars.$bg-sidebar;
+    border-radius: vars.$border-radius;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: vars.$color-border;
+    border-radius: vars.$border-radius;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: vars.$color-primary;
+    }
+  }
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: vars.$color-white;
+  border: 1.5px solid vars.$color-border-alt;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: vars.$transition-fast;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: vars.$color-border-alt;
+    border-radius: 3px 0 0 3px;
+    transition: background 0.18s ease;
+  }
+
+  &:hover {
+    border-color: vars.$color-primary;
+    box-shadow: vars.$box-shadow-light;
+    transform: translateY(-1px);
+
+    &::before {
+      background: vars.$color-primary;
+    }
+  }
+
+  &.done::before {
+    background: vars.$color-success;
+  }
+
+  &.done {
+    background: vars.$color-bg-alt;
+    border-color: vars.$color-border-alt;
+  }
+
+  &.selected {
+    background: vars.$color-bg;
+    border-color: vars.$color-primary;
+
+    &::before {
+      background: vars.$color-primary;
+    }
+  }
+}
+
+.todo-name {
+  font-size: vars.$font-size-lg;
+  font-weight: 500;
+  color: vars.$color-gray-dark;
+}
+
+.todo-item.done .todo-name {
+  text-decoration: line-through;
+  color: vars.$color-gray-light;
+}
+
+.done-chip {
+  background: rgba(vars.$color-success, 0.1);
+  color: vars.$color-success;
+  border-radius: 99px;
+  font-size: vars.$font-size-sm;
+  font-weight: 600;
+}
+
+.pending-chip {
+  background: rgba(#f59e0b, 0.1);
+  color: #d97706;
+  border-radius: 99px;
+  font-size: vars.$font-size-sm;
+  font-weight: 600;
+}
+
+/* Mobile / Tablet media queries can use vars as well for font-size and gaps */

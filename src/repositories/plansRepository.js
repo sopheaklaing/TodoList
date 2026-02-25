@@ -86,3 +86,29 @@ export function toggleTodo(plans, planId, todoId) {
   savePlans(updated)
   return { plans: updated }
 }
+
+export function deleteTodos(plans, planId, todoIds) {
+  const ids = Array.isArray(todoIds) ? todoIds : [todoIds]
+  const updated = plans.map(p => {
+    if (p.id !== planId) return p
+    return {
+      ...p,
+      todos: p.todos.filter(t => !ids.includes(t.id)),
+    }
+  })
+  savePlans(updated)
+  return { plans: updated }
+}
+
+export function setTodosChecked(plans, planId, todoIds, checked = true) {
+  const ids = Array.isArray(todoIds) ? todoIds : [todoIds]
+  const updated = plans.map(p => {
+    if (p.id !== planId) return p
+    return {
+      ...p,
+      todos: p.todos.map(t => (ids.includes(t.id) ? { ...t, checked } : t)),
+    }
+  })
+  savePlans(updated)
+  return { plans: updated }
+}

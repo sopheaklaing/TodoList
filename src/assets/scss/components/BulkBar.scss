@@ -1,0 +1,133 @@
+@use "@/assets/scss/_variables" as vars;
+
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: vars.$color-bg;
+  border: 1.5px solid vars.$color-border;
+  border-radius: vars.$bulk-bar-radius;
+
+  .bulk-count {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    color: vars.$color-primary;
+    font-size: vars.$font-size-lg;
+  }
+
+  .bulk-actions {
+    display: flex;
+    gap: 8px;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      border-radius: vars.$border-radius;
+      font-family: vars.$font-family;
+      font-size: vars.$font-size-md;
+      font-weight: 600;
+      cursor: pointer;
+      transition: vars.$transition-fast;
+
+      &:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+    }
+
+    .bulk-complete {
+      background: vars.$color-success;
+      color: vars.$color-white;
+      border: none;
+
+      &:hover:not(:disabled) {
+        background: vars.$color-success-hover;
+      }
+    }
+
+    .bulk-delete {
+      background: vars.$color-danger-bg;
+      color: vars.$color-danger;
+      border: 1px solid vars.$color-danger-bg-hover;
+
+      &:hover:not(:disabled) {
+        background: vars.$color-danger-bg-hover;
+      }
+    }
+
+    .bulk-cancel {
+      background: vars.$color-white;
+      color: vars.$color-gray;
+      border: 1.5px solid #e2e8f0;
+
+      &:hover {
+        background: #f7fafc;
+      }
+    }
+  }
+}
+
+/* Slide animation */
+.slide-bar-enter-active,
+.slide-bar-leave-active {
+  transition: vars.$transition-medium;
+}
+
+.slide-bar-enter-from,
+.slide-bar-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .bulk-bar {
+    padding: 10px 14px;
+
+    .bulk-count { font-size: 0.8rem; }
+
+    .bulk-actions {
+      gap: 6px;
+
+      button {
+        padding: 5px 12px;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .bulk-bar {
+    flex-direction: column;
+    padding: 10px 12px;
+    gap: 10px;
+
+    .bulk-count {
+      font-size: 0.75rem;
+      width: 100%;
+    }
+
+    .bulk-actions {
+      width: 100%;
+      gap: 4px;
+
+      button {
+        padding: 6px 10px;
+        font-size: vars.$font-size-sm;
+        flex: 1;
+
+        svg {
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
+  }
+}

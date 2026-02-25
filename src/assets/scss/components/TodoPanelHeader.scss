@@ -1,0 +1,144 @@
+@use "@/assets/scss/_variables" as vars;
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.plan-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius;
+  background: $gradient-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-white;
+  box-shadow: $box-shadow-light;
+  flex-shrink: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.plan-label {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $color-gray;
+  margin: 0 0 2px;
+}
+
+.panel-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $color-primary;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.select-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: $border-radius;
+  border: 1.5px solid $border-color;
+  background: $color-white;
+  color: $color-gray;
+  font-family: $font-family;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-fast;
+
+  &:hover:not(:disabled) {
+    border-color: $color-primary;
+    color: $color-primary;
+    background: $color-bg-alt;
+  }
+
+  &.active {
+    background: $color-bg;
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: $border-radius;
+  border: none;
+  background: $gradient-primary;
+  color: $color-white;
+  font-family: $font-family;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-fast;
+  box-shadow: $box-shadow-light;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: $box-shadow-hover;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .panel-header h2 { font-size: 1.2rem; }
+  .select-btn, .add-btn {
+    padding: 8px 14px;
+    font-size: $font-size-md;
+    gap: 5px;
+  }
+  .select-btn svg, .add-btn svg { width: 14px; height: 14px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .panel-header { gap: 12px; }
+  .header-left { gap: 10px; }
+  .plan-badge {
+    width: 36px;
+    height: 36px;
+    svg { width: 13px; height: 13px; }
+  }
+  .plan-label { font-size: $font-size-sm; }
+  .panel-header h2 { font-size: 1rem; }
+  .header-actions { gap: 6px; }
+  .select-btn, .add-btn {
+    padding: 7px 12px;
+    font-size: $font-size-sm;
+    gap: 4px;
+    svg { width: 13px; height: 13px; }
+  }
+}

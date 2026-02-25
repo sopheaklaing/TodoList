@@ -1,0 +1,105 @@
+@use "@/assets/scss/_variables" as vars;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap');
+
+.todo-panel {
+  flex: 1;
+  background: vars.$bg-sidebar;
+  padding: 36px 44px;
+  height: calc(100vh - 72px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: vars.$font-family;
+  overflow: hidden;
+}
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .todo-panel {
+    padding: 24px 32px;
+    height: calc(100vh - 64px);
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 768px) {
+  .todo-panel {
+    padding: 16px 16px;
+    height: calc(100vh - 56px);
+    gap: 16px;
+  }
+}
+
+/* SweetAlert2 global styles for todos */
+.swal-todo-popup {
+  border-radius: 18px !important;
+  font-family: vars.$font-family !important;
+  padding: 28px !important;
+}
+
+.swal-confirm-btn {
+  background: linear-gradient(135deg, vars.$primary, vars.$secondary) !important;
+  color: vars.$color-white !important;
+  border: none !important;
+  padding: 10px 22px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-family: vars.$font-family !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35) !important;
+  }
+}
+
+.swal-deny-btn {
+  background: vars.$color-danger-bg !important;
+  color: vars.$color-danger !important;
+  border: 1px solid vars.$color-danger-bg-hover !important;
+  padding: 10px 22px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-family: vars.$font-family !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    background: vars.$color-danger-bg-hover !important;
+  }
+}
+
+.swal-danger-btn {
+  background: vars.$color-danger !important;
+  color: vars.$color-white !important;
+  border: none !important;
+  padding: 10px 22px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-family: vars.$font-family !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    background: #b91c1c !important;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
+  }
+}
+
+.swal-cancel-btn {
+  background: vars.$color-white !important;
+  color: vars.$color-gray !important;
+  border: 1.5px solid #e2e8f0 !important;
+  padding: 10px 22px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-family: vars.$font-family !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    background: #f7fafc !important;
+    border-color: #cbd5e1 !important;
+  }
+}

@@ -1,43 +1,37 @@
 <template>
   <main class="todo-panel">
-    <div v-if="plan" class="panel-header">
-      <h2>{{ plan.name }}</h2>
-      <button class="add-todo-btn" @click="showModal = true">
-        <Plus :size="18" />
-        Add todo
-      </button>
-    </div>
+    <Header
+      v-if="plan"
+      :plan="plan"
+      :ui="ui"
+    />
 
     <template v-if="plan">
-      <div v-if="plan.todos.length > 0" class="todo-list">
-        <label
-          v-for="todo in plan.todos"
-          :key="todo.id"
-          class="todo-item"
-          :class="{ done: todo.checked }"
-        >
-          <input
-            type="checkbox"
-            :checked="todo.checked"
-            @change="$emit('toggle-todo', plan.id, todo.id)"
-            class="todo-checkbox"
-          />
-          <span class="todo-name">{{ todo.name }}</span>
-        </label>
-      </div>
+      <StatsBar
+        v-if="plan.todos.length > 0"
+        :plan="plan"
+        :doneTodos="doneTodos.length"
+        :pendingTodos="pendingTodos.length"
+        :progress="progress"
+      />
 
-      <div v-else class="empty-state">
-        <div class="empty-icon"><ClipboardList :size="48" /></div>
-        <p>No todos yet</p>
-        <span>Click "Add todo" to create your first item</span>
-      </div>
+      <BulkBar :ui="ui" />
+
+      <TodoList
+        v-if="plan.todos.length > 0"
+        :plan="plan"
+        :ui="ui"
+        :toggle-todo="toggleTodo"
+      />
+
+      <EmptyState
+        v-else
+        :plan="plan"
+        @add-todo="showModal = true"
+      />
     </template>
 
-    <div v-else class="empty-state">
-      <div class="empty-icon"><FolderOpen :size="48" /></div>
-      <p>Select a plan</p>
-      <span>Choose a plan from the left or create a new one</span>
-    </div>
+    <EmptyState v-else :plan="null" />
 
     <PromptModal
       v-if="plan"
@@ -51,138 +45,112 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Plus, ClipboardList, FolderOpen } from 'lucide-vue-next'
+import { ref, computed } from 'vue'
+import Header from '../TodoPanel/Header.vue'
+import StatsBar from '../TodoPanel/StatsBar.vue'
+import BulkBar from '../TodoPanel/BulkBar.vue'
+import TodoList from '../TodoPanel/TodoList.vue'
+import EmptyState from '../TodoPanel/EmptyState.vue'
 import PromptModal from './PromptModal.vue'
+import { showTodoActionModal, showBulkActionModal, showDeleteTodoConfirm, showDeleteMultipleTodosConfirm } from '@/utils/sweetAlertHelpers'
+import '@/assets/scss/components/TodoPanel.scss'
 
-const props = defineProps({
-  plan: { type: Object, default: null }
-})
-
-const emit = defineEmits(['add-todo', 'toggle-todo'])
+const props = defineProps({ plan: { type: Object, default: null } })
+const emit = defineEmits(['add-todo', 'toggle-todo', 'delete-todo', 'set-todos-checked'])
 
 const showModal = ref(false)
+const selectedIds = ref(new Set())
+const selectMode = ref(false)
+
+const doneTodos = computed(() => props.plan?.todos.filter(t => t.checked) ?? [])
+const pendingTodos = computed(() => props.plan?.todos.filter(t => !t.checked) ?? [])
+const progress = computed(() => props.plan?.todos.length ? Math.round(doneTodos.value.length / props.plan.todos.length * 100) : 0)
+
+const ui = computed(() => ({
+  selectMode: selectMode.value,
+  selectedIds: selectedIds.value,
+  showModal: showModal.value,
+  toggleSelectMode,
+  toggleSelect,
+  onRowClick,
+  openBulkActions,
+  bulkComplete,
+  bulkDelete,
+  cancelSelection,
+  openTodoModal: () => { showModal.value = true }
+}))
+
+function toggleSelectMode() {
+  selectMode.value = !selectMode.value
+  if (!selectMode.value) selectedIds.value = new Set()
+}
+
+function toggleSelect(id) {
+  const next = new Set(selectedIds.value)
+  next.has(id) ? next.delete(id) : next.add(id)
+  selectedIds.value = next
+}
+
+function toggleTodo(id) {
+  const todo = props.plan.todos.find(t => t.id === id)
+  if (todo) emit('toggle-todo', props.plan.id, id)
+}
 
 function onAddTodoConfirm(name) {
   if (props.plan && name) emit('add-todo', props.plan.id, name)
 }
+
+function onRowClick(todo) {
+  if (selectMode.value) { toggleSelect(todo.id); return }
+  showTodoActionModal(
+    todo,
+    () => { emit('set-todos-checked', props.plan.id, [todo.id], true) },
+    () => {
+      showDeleteTodoConfirm(() => {
+        emit('delete-todo', props.plan.id, [todo.id])
+      })
+    }
+  )
+}
+
+function openBulkActions() {
+  const ids = Array.from(selectedIds.value)
+  if (!ids.length) return
+  showBulkActionModal(
+    ids.length,
+    () => {
+      emit('set-todos-checked', props.plan.id, ids, true)
+      selectedIds.value = new Set()
+      selectMode.value = false
+    },
+    () => {
+      emit('delete-todo', props.plan.id, ids)
+      selectedIds.value = new Set()
+      selectMode.value = false
+    }
+  )
+}
+
+function bulkComplete() {
+  const ids = Array.from(selectedIds.value)
+  if (!ids.length) return
+  emit('set-todos-checked', props.plan.id, ids, true)
+  selectedIds.value = new Set()
+  selectMode.value = false
+}
+
+function bulkDelete() {
+  const ids = Array.from(selectedIds.value)
+  if (!ids.length) return
+  showDeleteMultipleTodosConfirm(ids.length, () => {
+    emit('delete-todo', props.plan.id, ids)
+    selectedIds.value = new Set()
+    selectMode.value = false
+  })
+}
+
+function cancelSelection() {
+  selectedIds.value = new Set()
+  selectMode.value = false
+}
 </script>
-
-<style scoped>
-.todo-panel {
-  flex: 1;
-  background: #fafbfc;
-  padding: 32px 40px;
-  min-height: calc(100vh - 72px);
-  display: flex;
-  flex-direction: column;
-}
-
-.panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 28px;
-}
-
-.panel-header h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.add-todo-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
-  background: #3b82f6;
-  border: 1px solid #3b82f6;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.add-todo-btn:hover {
-  background: #2563eb;
-  border-color: #2563eb;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.35);
-}
-
-.add-todo-btn :deep(svg) {
-  flex-shrink: 0;
-}
-
-.todo-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.todo-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.todo-item:hover {
-  border-color: #cbd5e1;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
-
-.todo-item.done .todo-name {
-  color: #94a3b8;
-  text-decoration: line-through;
-}
-
-.todo-item.done {
-  border-color: #f1f5f9;
-}
-
-.todo-checkbox {
-  width: 20px;
-  height: 20px;
-  accent-color: #3b82f6;
-  cursor: pointer;
-}
-
-.todo-name {
-  font-size: 0.95rem;
-  color: #334155;
-  flex: 1;
-}
-
-.empty-state {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.empty-icon {
-  color: #cbd5e1;
-}
-
-.empty-state p {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #475569;
-}
-
-.empty-state span {
-  font-size: 0.9rem;
-  color: #94a3b8;
-}
-</style>

@@ -8,10 +8,10 @@
 }
 
 body {
+  background: #f8fafc;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f8fafc;
 }
 
 /* Smooth scrolling */
@@ -27,6 +27,40 @@ html {
 
 /* Custom selection color */
 ::selection {
-  background: #6366f1;
+  background: #3b82f6;
   color: white;
 }
+
+/* Dark mode variables */
+:root {
+  --bg-page: #f1f5f9;
+  --bg-sidebar: #f8fafc;
+  --bg-panel: #fafbfc;
+  --bg-card: #fff;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-done: #94a3b8;
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+}
+
+html.dark {
+  --bg-page: #0f172a;
+  --bg-sidebar: #1e293b;
+  --bg-panel: #0f172a;
+  --bg-card: #1e293b;
+  --text-primary: #fff;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-done: #64748b;
+  --border-color: #334155;
+  --border-hover: #475569;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  transition: background 0.2s, color 0.2s;
+}
+

@@ -1,0 +1,164 @@
+@use "@/assets/scss/_variables" as vars;
+
+.plans-sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: vars.$bg-sidebar;
+  border-right: 1px solid vars.$border-color;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.create-wrap {
+  position: relative;
+}
+
+.create-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: vars.$empty-add-btn-radius;
+  border: none;
+  background: vars.$gradient-primary;
+  color: vars.$color-white;
+  font-family: vars.$font-family;
+  font-size: vars.$font-size-lg;
+  font-weight: 600;
+  cursor: pointer;
+  transition: vars.$transition-fast;
+  box-shadow: vars.$box-shadow-light;
+
+  &:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.35);
+  }
+
+  :deep(svg) {
+    flex-shrink: 0;
+  }
+}
+
+.section-label {
+  color: #64748b;
+  font-size: vars.$font-size-sm;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.plans-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .plan-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 14px;
+    background: transparent;
+    border: none;
+    border-radius: vars.$border-radius;
+    color: #334155;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &:hover {
+      background: rgba(59, 130, 246, 0.08);
+      color: #1e293b;
+    }
+
+    &.active {
+      background: rgba(59, 130, 246, 0.12);
+      color: #1e40af;
+
+      .active-line {
+        background: #3b82f6;
+      }
+    }
+
+    .active-line {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 24px;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .plan-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+    }
+  }
+}
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .plans-sidebar {
+    width: 220px;
+    min-width: 220px;
+    padding: 20px 12px;
+    gap: 20px;
+  }
+
+  .plan-item {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .create-btn {
+    font-size: 0.8rem;
+    padding: 8px 14px;
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 768px) {
+  .plans-sidebar {
+    position: fixed;
+    left: 0;
+    top: 56px;
+    bottom: 0;
+    width: 260px;
+    min-width: 260px;
+    background: vars.$bg-sidebar;
+    border-right: 1px solid vars.$border-color;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    padding: 20px 16px;
+    gap: 24px;
+
+    &[data-open="true"] {
+      transform: translateX(0);
+    }
+  }
+
+  .plan-item {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+
+  .create-btn {
+    font-size: vars.$font-size-lg;
+    padding: 9px 18px;
+  }
+}
