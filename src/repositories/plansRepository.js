@@ -8,23 +8,35 @@ import { generateId } from '@/utils/id'
 import { STORAGE_KEYS, DEFAULTS } from '@/config/constants'
 
 const getDefaultPlans = () => [
-  { id: generateId(), name: 'Work plan', todos: [
-    { id: generateId(), name: 'Complete project proposal', checked: false },
-    { id: generateId(), name: 'Review design mockups', checked: true },
-    { id: generateId(), name: 'Call with team', checked: false },
-  ]},
-  { id: generateId(), name: 'School plan', todos: [
-    { id: generateId(), name: 'Finish homework', checked: false },
-    { id: generateId(), name: 'Study for exam', checked: false },
-  ]},
+  {
+    id: generateId(),
+    name: 'Work plan',
+    todos: [
+      { id: generateId(), name: 'Complete project proposal', checked: false },
+      { id: generateId(), name: 'Review design mockups', checked: true },
+      { id: generateId(), name: 'Call with team', checked: false },
+    ],
+  },
+  {
+    id: generateId(),
+    name: 'School plan',
+    todos: [
+      { id: generateId(), name: 'Finish homework', checked: false },
+      { id: generateId(), name: 'Study for exam', checked: false },
+    ],
+  },
   { id: generateId(), name: 'Dream plan', todos: [] },
 ]
 
 export function loadPlans() {
   const stored = getItem(STORAGE_KEYS.PLANS)
-  if (Array.isArray(stored) && stored.length > 0) {
-    return stored
-  }
+  return Array.isArray(stored) ? stored : []
+}
+
+export function initPlansIfEmpty() {
+  const current = loadPlans()
+  if (current.length > 0) return current
+
   const defaults = getDefaultPlans()
   setItem(STORAGE_KEYS.PLANS, defaults)
   return defaults

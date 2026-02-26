@@ -11,7 +11,7 @@ const selectedPlanId = ref(null)
 
 export function usePlans() {
   if (plans.value.length === 0) {
-    plans.value = repo.loadPlans()
+    plans.value = repo.initPlansIfEmpty()
     selectedPlanId.value = repo.loadSelectedPlanId(plans.value)
   }
 

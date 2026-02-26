@@ -46,6 +46,10 @@ const props = defineProps({
   placeholder: { type: String, default: '' },
   defaultValue: { type: String, default: '' },
   anchor: { type: String, default: '' },
+  validate: {
+    type: Function,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['confirm', 'cancel', 'update:show'])
@@ -96,6 +100,10 @@ function focusInput() {
 function confirm() {
   const value = inputValue.value.trim()
   if (!value) return
+
+  if (typeof props.validate === 'function' && !props.validate(value)) {
+    return
+  }
 
   emit('confirm', value)
   close()

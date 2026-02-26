@@ -32,19 +32,13 @@
         </div>
       </div>
 
-      <!-- <button class="dark-mode-btn" aria-label="Toggle dark mode" @click="toggleDarkMode">
-        <Sun :size="22" class="icon-sun" />
-        <Moon :size="22" class="icon-moon" />
-      </button> -->
+      <!-- Dark mode toggle removed -->
     </div>
   </header>
 </template>
 
 <script setup>
-import { Sun, Moon } from 'lucide-vue-next'
-import { useDarkMode } from '@/composables/useDarkMode'
 import '@/assets/scss/components/Navbar.scss'
-const { toggleDarkMode } = useDarkMode()
 
 defineEmits(['toggle-sidebar'])
 </script>

@@ -10,7 +10,7 @@
         v-model:show="showModal"
         title="New plan"
         placeholder="Plan name"
-        defaultValue="New plan"
+        :defaultValue="DEFAULTS.PLAN_NAME"
         anchor="create-wrap"
         @confirm="onConfirm"
       />
@@ -39,7 +39,9 @@
 import { ref } from 'vue'
 import { Plus, Folder } from 'lucide-vue-next'
 import PromptModal from './PromptModal.vue'
+import { DEFAULTS } from '@/config/constants'
 import '@/assets/scss/components/PlansSidebar.scss'
+
 defineProps({
   plans: { type: Array, required: true },
   selectedPlanId: { type: String, default: '' },
@@ -51,7 +53,8 @@ const emit = defineEmits(['create', 'select'])
 const showModal = ref(false)
 
 function onConfirm(name) {
-  if (name) emit('create', name)
+  const trimmed = name?.trim()
+  if (trimmed) emit('create', trimmed)
 }
 </script>
 
