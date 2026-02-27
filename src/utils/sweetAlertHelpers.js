@@ -43,21 +43,20 @@ export async function showTodoActionModal(todo, onConfirm, onDeny) {
  * @param {Function} onComplete - Callback to complete all
  * @param {Function} onDelete - Callback to delete all
  */
-export function showBulkActionModal(count, onComplete, onDelete) {
-  return Swal.fire({
+export async function showBulkActionModal(count, onComplete, onDelete) {
+  const result = await Swal.fire({
     title: `${count} item${count > 1 ? 's' : ''} selected`,
     showDenyButton: true,
     confirmButtonText: '✓ Complete all',
     denyButtonText: '✕ Delete all',
     customClass: baseCustomClasses,
     buttonsStyling: false,
-  }).then(result => {
-    if (result.isConfirmed) {
-      onComplete()
-    } else if (result.isDenied) {
-      onDelete()
-    }
   })
+  if (result.isConfirmed) {
+    onComplete()
+  } else if (result.isDenied) {
+    onDelete()
+  }
 }
 
 /**
@@ -65,8 +64,8 @@ export function showBulkActionModal(count, onComplete, onDelete) {
  * @param {Function} onDelete - Callback when user confirms delete
  * @returns {Promise}
  */
-export function showDeleteTodoConfirm(onDelete) {
-  return Swal.fire({
+export async function showDeleteTodoConfirm(onDelete) {
+  const result = await Swal.fire({
     title: 'Delete this todo?',
     text: 'This action cannot be undone.',
     icon: 'warning',
@@ -77,11 +76,10 @@ export function showDeleteTodoConfirm(onDelete) {
       cancelButton: 'swal-cancel-btn',
     },
     buttonsStyling: false,
-  }).then(result => {
-    if (result.isConfirmed) {
-      onDelete()
-    }
   })
+  if (result.isConfirmed) {
+    onDelete()
+  }
 }
 
 /**
@@ -90,8 +88,8 @@ export function showDeleteTodoConfirm(onDelete) {
  * @param {Function} onDelete - Callback when user confirms delete
  * @returns {Promise}
  */
-export function showDeleteMultipleTodosConfirm(count, onDelete) {
-  return Swal.fire({
+export async function showDeleteMultipleTodosConfirm(count, onDelete) {
+  const result = await Swal.fire({
     title: `Delete ${count} todo${count > 1 ? 's' : ''}?`,
     text: 'This cannot be undone.',
     icon: 'warning',
@@ -102,11 +100,10 @@ export function showDeleteMultipleTodosConfirm(count, onDelete) {
       cancelButton: 'swal-cancel-btn',
     },
     buttonsStyling: false,
-  }).then(result => {
-    if (result.isConfirmed) {
-      onDelete()
-    }
   })
+  if (result.isConfirmed) {
+    onDelete()
+  }
 }
 
 /**
