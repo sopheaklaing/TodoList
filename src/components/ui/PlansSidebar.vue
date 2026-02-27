@@ -1,6 +1,6 @@
 <template>
   <aside class="plans-sidebar" :data-open="sidebarOpen ? 'true' : 'false'">
-    <div class="create-wrap">
+    <div class="create-wrap" ref="createWrapRef">
       <button class="create-btn" @click="showModal = true">
         <Plus :size="20" />
         Create
@@ -11,7 +11,7 @@
         title="New plan"
         placeholder="Plan name"
         :defaultValue="DEFAULTS.PLAN_NAME"
-        anchor="create-wrap"
+        :anchorEl="createWrapRef"
         @confirm="onConfirm"
       />
     </div>
@@ -51,10 +51,10 @@ defineProps({
 const emit = defineEmits(['create', 'select'])
 
 const showModal = ref(false)
+const createWrapRef = ref(null)
 
 function onConfirm(name) {
-  const trimmed = name?.trim()
-  if (trimmed) emit('create', trimmed)
+  emit('create', name)
 }
 </script>
 

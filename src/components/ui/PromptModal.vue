@@ -1,8 +1,8 @@
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div v-if="show" class="modal-overlay" :class="{ centered: !anchor }" @click.self="cancel">
-        <div class="modal" :class="{ anchored: anchor }" :style="anchorStyle">
+      <div v-if="show" class="modal-overlay" :class="{ centered: !anchorEl }" @click.self="cancel">
+        <div class="modal" :class="{ anchored: anchorEl }" :style="anchorStyle">
           <div class="modal-header">
             <div class="modal-icon-wrap">
               <Plus :size="20" stroke-width="2" />
@@ -45,7 +45,10 @@ const props = defineProps({
   title: { type: String, default: '' },
   placeholder: { type: String, default: '' },
   defaultValue: { type: String, default: '' },
-  anchor: { type: String, default: '' },
+  anchorEl: {
+    type: Object,
+    default: null,
+  },
   validate: {
     type: Function,
     default: null,
@@ -73,13 +76,13 @@ watch(
 )
 
 function updateAnchorPosition() {
-  if (!props.anchor) {
+  if (!props.anchorEl) {
     anchorStyle.value = {}
     return
   }
 
-  const el = document.querySelector(`.${props.anchor}`)
-  if (!el) {
+  const el = props.anchorEl
+  if (!el || typeof el.getBoundingClientRect !== 'function') {
     anchorStyle.value = {}
     return
   }
